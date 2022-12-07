@@ -2,6 +2,7 @@ QT += quick
 
 SOURCES += main.cpp \
     UTILS/cmd.cpp \
+    UTILS/cpu_usage.cpp \
     UTILS/utils.cpp
 
 resources.files =qml/AppDesign.qml
@@ -23,4 +24,5 @@ DISTFILES += qml/Screen01.ui.qml qtquickcontrols2.conf
 
 HEADERS += \
     UTILS/cmd.h \
+    UTILS/cpu_usage.h \
     UTILS/utils.h
