@@ -1,6 +1,8 @@
 QT += quick
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    UTILS/cmd.cpp \
+    UTILS/utils.cpp
 
 resources.files =qml/AppDesign.qml
 resources.prefix = /$${TARGET}
@@ -18,3 +20,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += qml/Screen01.ui.qml qtquickcontrols2.conf
+
+HEADERS += \
+    UTILS/cmd.h \
+    UTILS/utils.h
