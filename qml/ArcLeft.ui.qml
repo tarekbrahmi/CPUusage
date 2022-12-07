@@ -58,7 +58,7 @@ ArcItem {
     id: arcLeft
     width: 360
     height: 360
-    property real value: 30
+    property real value: 0
 
     end: 82
     strokeColor: "#35e583"

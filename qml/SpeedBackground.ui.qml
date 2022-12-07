@@ -382,7 +382,8 @@ Item {
             id: speedLabel
             x: 34
             y: -8
-            text: Backend.speedString
+//            text: Backend.speedString
+            text: "55"
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
         }
