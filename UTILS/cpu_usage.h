@@ -1,7 +1,7 @@
 #ifndef CPU_USAGE_H
 #define CPU_USAGE_H
 #include "cmd.h"
-#define PATH_CPU_STATE "/proc/stat"
+
 
 class CPU_USAGE:public CMD
 {
