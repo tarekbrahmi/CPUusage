@@ -1,9 +1,9 @@
-
 import QtQuick 2.10
 import appDesign 1.0
 import QtQuick.Studio.Components 1.0
 import QtQuick.Timeline 1.0
-import AppData 1.0
+import Monty 1.0
+
 
 Item {
     id: element
@@ -12,6 +12,9 @@ Item {
     property alias dot01: dot01
     property alias text50Percent: text50Percent
     property alias currentFrame: timeline.currentFrame
+    DisplayCPUusgae{
+        id:displaycpuusage
+    }
 
     ArcItem {
         id: arcRight
@@ -48,8 +51,8 @@ Item {
 
         ArcItem {
             id: arc
-            x: 29
-            y: 27
+            x: 30
+            y: 30
             width: 380
             height: 380
             antialiasing: true
@@ -101,7 +104,7 @@ Item {
             x: 194
             y: 415
             color: "#6d6d6d"
-            text: qsTr("0")
+            text: qsTr("0%")
             font.pixelSize: 14
         }
 
@@ -117,11 +120,11 @@ Item {
         }
 
         Text {
-            id: text30
+            id: text50
             x: 0
             y: 192
             color: "#6d6d6d"
-            text: qsTr("30")
+            text: qsTr("50%")
             anchors.left: parent.left
             font.pixelSize: 14
         }
@@ -136,11 +139,13 @@ Item {
         }
 
         Text {
-            id: text60
-            x: 194
+            id: text100
+            x: 174
             y: 0
+            width: 17
+            height: 18
             color: "#6d6d6d"
-            text: qsTr("60")
+            text: qsTr("100%")
             font.pixelSize: 14
         }
 
@@ -334,9 +339,10 @@ Item {
             id: speedLabel
             x: 34
             y: -8
-            text: Backend.speedString
+            text: displaycpuusage.getPercent()
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
+
         }
     }
 }
