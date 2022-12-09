@@ -27,5 +27,7 @@ INCLUDEPATH += UTILS/
 HEADERS += \
     UTILS/cmd.h \
     UTILS/cpu_usage.h \
+    UTILS/data.h \
     UTILS/displaycpuusgae.h \
+    UTILS/runnable.h \
     UTILS/utils.h
