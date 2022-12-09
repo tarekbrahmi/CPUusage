@@ -3,8 +3,8 @@ QT += quick
 SOURCES += main.cpp \
     UTILS/cmd.cpp \
     UTILS/cpu_usage.cpp \
-    UTILS/utils.cpp \
-    UTILS/utlis.cpp
+    UTILS/displaycpuusgae.cpp \
+    UTILS/utils.cpp
 
 resources.files =qml/AppDesign.qml
 resources.prefix = /$${TARGET}
@@ -21,10 +21,11 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += qml/Screen01.ui.qml qtquickcontrols2.conf
+DISTFILES +=  qtquickcontrols2.conf \
+    qml/SpeedBackground.qml
 INCLUDEPATH += UTILS/
 HEADERS += \
     UTILS/cmd.h \
     UTILS/cpu_usage.h \
-    UTILS/utils.h \
-    UTILS/utlis.h
+    UTILS/displaycpuusgae.h \
+    UTILS/utils.h
