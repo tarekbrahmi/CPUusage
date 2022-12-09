@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
 
-    QGuiApplication::setApplicationName("CPU");
-    QGuiApplication::setOrganizationName("CPU");
+    QGuiApplication::setApplicationName("DisplayCPUusgae");
+    QGuiApplication::setOrganizationName("DisplayCPUusgae");
     QGuiApplication app(argc, argv);
     qmlRegisterType<DisplayCPUusgae>("Monty",1,0,"DisplayCPUusgae");
     QQuickView view;

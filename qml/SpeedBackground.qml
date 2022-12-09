@@ -339,9 +339,10 @@ Item {
             id: speedLabel
             x: 34
             y: -8
-            text: displaycpuusage.percent
+            text: displaycpuusage.getPercent()
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
+
         }
     }
 }

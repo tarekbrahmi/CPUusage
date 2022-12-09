@@ -58,7 +58,7 @@ ArcItem {
     id: arcLeft
     width: 360
     height: 360
-    property real value: 0
+    property real value: 60
 
     end: 82
     strokeColor: "#35e583"
@@ -69,7 +69,7 @@ ArcItem {
     Timeline {
         id: timeline
         currentFrame: arcLeft.value * 10
-        endFrame: 600
+        endFrame: 1000
         enabled: true
         startFrame: 0
 
@@ -84,7 +84,7 @@ ArcItem {
 
             Keyframe {
                 value: 82
-                frame: 600
+                frame: 1000
             }
         }
     }
