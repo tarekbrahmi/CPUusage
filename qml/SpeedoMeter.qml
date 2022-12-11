@@ -12,7 +12,7 @@ SpeedBackground {
         x: 36
         y: 37
         antialiasing: true
-        value: 88
+        value: myData.capaBattery
     }
 
     ArcLeft {

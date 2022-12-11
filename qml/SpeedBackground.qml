@@ -2,7 +2,7 @@ import QtQuick 2.10
 import appDesign 1.0
 import QtQuick.Studio.Components 1.0
 import QtQuick.Timeline 1.0
-import Monty 1.0
+
 
 
 
@@ -13,9 +13,6 @@ Item {
     property alias dot01: dot01
     property alias text50Percent: text50Percent
     property alias currentFrame: timeline.currentFrame
-    DisplayCPUusgae{
-        id:displaycpuusage
-    }
 
 
     ArcItem {

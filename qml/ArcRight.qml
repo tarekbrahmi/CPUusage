@@ -7,7 +7,7 @@ ArcItem {
     id: arcRight
     width: 360
     height: 360
-    property real value: 30
+    property real value:myData.capaBattery
     end: 262
     capStyle: 32
     strokeColor: "#38ccde"

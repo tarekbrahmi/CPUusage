@@ -6,9 +6,11 @@
 #include <QThread>
 #include <QDebug>
 #define PATH_CPU_STATE "/proc/stat"
+#define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
+    int battreyPercent;
     QObject *mReceiver;
     bool mRunning;
     unsigned long long cpu_sum=0 ;
@@ -23,10 +25,15 @@ public:
 
         while(mRunning){
             cpuUsagePercent=calcCpuUsage(cpu_sum,cpu_idle);
+            battreyPercent=GetBatteryPercent();
             qDebug ()<<"Percent "<<cpuUsagePercent;
             QMetaObject::invokeMethod(mReceiver, "setCpuUsagePercent",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuUsagePercent));
+            QMetaObject::invokeMethod(mReceiver, "setCapaBattery",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(int, battreyPercent));
+
             QThread::msleep(100);
         }
     }
@@ -67,7 +74,13 @@ public:
         cpu_idle = idle;
         return percent;
     }
-
+    int GetBatteryPercent(){
+        int capPercent;
+        FILE *file = fopen(PATH_BAT_CAPA, "r");
+        fscanf(file, "%d",&capPercent);
+        fclose(file);
+        return capPercent;
+    }
 };
 
 #endif // RUNNABLE_H
