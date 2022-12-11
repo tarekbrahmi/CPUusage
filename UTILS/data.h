@@ -9,10 +9,10 @@
 class Data : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
+    Q_PROPERTY(long cpuUsagePercent READ cpuUsagePercent WRITE setCpuUsagePercent NOTIFY cpuUsagePercentChanged)
 public:
     explicit Data(QObject *parent = nullptr):QObject(parent){
-        m_number = 0;
+        m_cpuUsagePercent=0;
         runnable = new Runnable(this);
     }
     ~Data(){
@@ -23,21 +23,29 @@ public:
             QThreadPool::globalInstance()->start(runnable);
 
     }
-    int number() const{
-        return m_number;
-    }
+
+    long cpuUsagePercent() const
+    {
+        return m_cpuUsagePercent;
+    };
+
 public slots:
-    void setNumber(int number){
-        if(number == m_number)
+    void setCpuUsagePercent(long newCpuUsagePercent)
+    {
+        if (m_cpuUsagePercent == newCpuUsagePercent)
             return;
-        m_number = number;
-        emit numberChanged(m_number);
+        m_cpuUsagePercent = newCpuUsagePercent;
+        emit cpuUsagePercentChanged(m_cpuUsagePercent);
     }
 signals:
-    void numberChanged(int);
+    void cpuUsagePercentChanged(long);
+
 private:
-    int m_number;
     Runnable *runnable;
+    long m_cpuUsagePercent;
 };
+
+
+
 
 #endif // DATA_H

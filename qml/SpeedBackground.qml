@@ -330,18 +330,18 @@ Item {
             width: 31
             height: 47
             color: "#6d6d6d"
-            text: " mph"
+            text: " %"
             wrapMode: Text.WordWrap
-            lineHeight: 0.8
+            lineHeight: 0.9
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 20
+            font.pixelSize: 27
         }
 
         CustomLabel {
             id: speedLabel
             x: 34
             y: -8
-            text: myNumber.number
+            text: myData.cpuUsagePercent
 
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82

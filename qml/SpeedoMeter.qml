@@ -21,6 +21,6 @@ SpeedBackground {
         y: 37
         strokeColor: "#11d388"
         antialiasing: true
-        value: myNumber.number
+        value:myData.cpuUsagePercent
     }
 }

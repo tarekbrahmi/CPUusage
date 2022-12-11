@@ -12,7 +12,7 @@ Rectangle {
     color: "#1a1e25"
     state: "Standard"
     Data{
-        id:myNumber
+        id:myData
     }
 
     Foreground {
@@ -26,8 +26,8 @@ Rectangle {
     Connections {
         target: foreground
         onClicked: {
-            myNumber.start()
-            console.log("number ",myNumber.number)
+            myData.start()
+            console.log("cpuUsagePercent ",myData.cpuUsagePercent)
             if (state === "Standard")
                 root.state = "ToBig"
             else if (state === "Big")
