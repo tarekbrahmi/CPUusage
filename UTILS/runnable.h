@@ -1,14 +1,21 @@
 #ifndef RUNNABLE_H
 #define RUNNABLE_H
-
 #include <QObject>
+#include <string>
+#include "cmd.h"
+#include "utils.h"
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
+#include <QVariant>
 #define PATH_CPU_STATE "/proc/stat"
+#define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
+#define PATH_BAT_STATUS "/sys/class/power_supply/BAT0/status"
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
+    int battreyPercent=0;
+    QString battreyStatus="Discharging";
     QObject *mReceiver;
     bool mRunning;
     unsigned long long cpu_sum=0 ;
@@ -20,13 +27,19 @@ public:
     }
     void run(){
         mRunning = true;
-
         while(mRunning){
             cpuUsagePercent=calcCpuUsage(cpu_sum,cpu_idle);
-            qDebug ()<<"Percent "<<cpuUsagePercent;
+            battreyPercent=GetBatteryPercent();
+            battreyStatus=getBattreyStatus();
             QMetaObject::invokeMethod(mReceiver, "setCpuUsagePercent",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuUsagePercent));
+            QMetaObject::invokeMethod(mReceiver, "setCapaBattery",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(int, battreyPercent));
+            QMetaObject::invokeMethod(mReceiver, "setBatteryStatus",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(QString, battreyStatus));
             QThread::msleep(100);
         }
     }
@@ -67,7 +80,21 @@ public:
         cpu_idle = idle;
         return percent;
     }
-
+    int GetBatteryPercent(){
+        int capPercent;
+        FILE *file = fopen(PATH_BAT_CAPA, "r");
+        fscanf(file, "%d",&capPercent);
+        fclose(file);
+        return capPercent;
+    }
+    QString getBattreyStatus() const{
+        char cmd_tump[255];
+        CMD cmd;
+        UTILS utils;
+        sprintf(cmd_tump, "%s %s", "/usr/bin/cat", PATH_BAT_STATUS);
+        return utils.trim( cmd.exec(cmd_tump));
+    };
 };
+
 
 #endif // RUNNABLE_H

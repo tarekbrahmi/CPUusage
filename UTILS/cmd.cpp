@@ -1,15 +1,16 @@
 #include "cmd.h"
-#include <string>
+#include <QString>
 #include <array>
 #include <stdexcept>
 #include <stdio.h>
+#include <QVariant>
 #include <cstdio>
 CMD::CMD(){
 }
-std::string CMD::exec(char *cmd){
+QString CMD::exec(char *cmd){
 
             std::array<char, 128> buffer;
-            std::string result;
+            QString result;
             FILE *fp = popen(cmd, "r");
             if (fp == NULL)
             {

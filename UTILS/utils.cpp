@@ -1,11 +1,12 @@
 #include "utils.h"
-#include <string>
-
+#include "QRegularExpression"
+#include <QString>
 UTILS::UTILS(){
 }
-std::string UTILS::trim(std::string str){
-        str.erase(str.find_last_not_of(" \t\r\v\n"));
-        str.erase(0, str.find_first_not_of(" \t\r\v\n"));
-        return str;
+QString UTILS::trim(QString str){
+       QString st1 =str.split(" ").join("");
+       QString st2 =st1.split("\n").join("");
+       QString st3 =st2.split("\t").join("");
+        return st3;
     }
 

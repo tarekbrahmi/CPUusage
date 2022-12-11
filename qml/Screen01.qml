@@ -27,7 +27,7 @@ Rectangle {
         target: foreground
         onClicked: {
             myData.start()
-            console.log("cpuUsagePercent ",myData.cpuUsagePercent)
+            console.log("batteryStatus ",myData.batteryStatus)
             if (state === "Standard")
                 root.state = "ToBig"
             else if (state === "Big")

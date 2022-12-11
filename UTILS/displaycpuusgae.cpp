@@ -26,7 +26,6 @@ QString DisplayCPUusgae::percent()
 QString DisplayCPUusgae::calcCpuUsage(unsigned long long cpu_sum,  unsigned long long cpu_idle)
 {
     double percent = 0;
-    char cmd_sleep[255] = "/usr/bin/sleep 1";
     unsigned long long user, nice, system, idle, iowait, irq, softirq;
     unsigned long long _cpu_sum = 0;
     unsigned long long _cpu_idle = 0;

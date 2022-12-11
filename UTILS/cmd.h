@@ -1,12 +1,12 @@
 #ifndef CMD_H
 #define CMD_H
-#include <string>
+#include <QString>
 
 class CMD
 {
 public:
     CMD();
-    std::string exec(char *cmd);
+    QString exec(char *cmd);
 };
 
 #endif // CMD_H
