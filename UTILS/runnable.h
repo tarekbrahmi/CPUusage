@@ -3,6 +3,7 @@
 #include <QObject>
 #include <string>
 #include "cmd.h"
+#include "utils.h"
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
@@ -13,7 +14,7 @@
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
-    int battreyPercent;
+    int battreyPercent=0;
     QString battreyStatus="Discharging";
     QObject *mReceiver;
     bool mRunning;
@@ -89,8 +90,9 @@ public:
     QString getBattreyStatus() const{
         char cmd_tump[255];
         CMD cmd;
+        UTILS utils;
         sprintf(cmd_tump, "%s %s", "/usr/bin/cat", PATH_BAT_STATUS);
-        return cmd.exec(cmd_tump);
+        return utils.trim( cmd.exec(cmd_tump));
     };
 };
 

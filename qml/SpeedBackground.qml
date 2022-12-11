@@ -2,10 +2,6 @@ import QtQuick 2.10
 import appDesign 1.0
 import QtQuick.Studio.Components 1.0
 import QtQuick.Timeline 1.0
-
-
-
-
 Item {
     id: element
     width: 454
@@ -13,7 +9,13 @@ Item {
     property alias dot01: dot01
     property alias text50Percent: text50Percent
     property alias currentFrame: timeline.currentFrame
-
+    function setLabelColor(){
+        var _color="#6d6d6d"
+        if(myData.batteryStatus==="Discharging"){_color = '#6d6d6d'}
+        if(myData.batteryStatus==="Charging"){ _color = '#006400'}
+        if(myData.batteryStatus==="NotCharging"){ _color = '#f0e68c'}
+        return _color
+    }
 
     ArcItem {
         id: arcRight
@@ -111,7 +113,7 @@ Item {
             id: text50Percent
             y: 192
             color: "#6d6d6d"
-            text: qsTr("50%")
+            text: myData.capaBattery+" %"
             anchors.left: parent.left
             anchors.leftMargin: 424
             anchors.right: parent.right
@@ -326,12 +328,12 @@ Item {
             y: 88
             width: 31
             height: 47
-            color: "#6d6d6d"
             text: myData.batteryStatus
             wrapMode: Text.WordWrap
             lineHeight: 0.8
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 12
+            color: setLabelColor()
         }
 
         CustomLabel {
