@@ -327,11 +327,11 @@ Item {
             width: 31
             height: 47
             color: "#6d6d6d"
-            text: " %"
+            text: myData.batteryStatus
             wrapMode: Text.WordWrap
-            lineHeight: 0.9
+            lineHeight: 0.8
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 27
+            font.pixelSize: 12
         }
 
         CustomLabel {
@@ -339,7 +339,6 @@ Item {
             x: 34
             y: -8
             text: myData.cpuUsagePercent
-
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
 
