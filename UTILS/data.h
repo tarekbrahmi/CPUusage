@@ -18,10 +18,10 @@ public:
     ~Data(){
         runnable->stop();
     }
-    Q_INVOKABLE int start(){
+    Q_INVOKABLE void start(){
         if(!runnable->isRunning())
             QThreadPool::globalInstance()->start(runnable);
-        return number();
+
     }
     int number() const{
         return m_number;

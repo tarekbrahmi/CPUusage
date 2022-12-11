@@ -3,7 +3,7 @@ import appDesign 1.0
 import QtQuick.Studio.Components 1.0
 import QtQuick.Timeline 1.0
 import Monty 1.0
-import data 1.0
+
 
 
 Item {
@@ -16,9 +16,7 @@ Item {
     DisplayCPUusgae{
         id:displaycpuusage
     }
-    Data{
-        id :myData
-    }
+
 
     ArcItem {
         id: arcRight
@@ -343,7 +341,8 @@ Item {
             id: speedLabel
             x: 34
             y: -8
-            text: myData.start()
+            text: myNumber.number
+
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
 

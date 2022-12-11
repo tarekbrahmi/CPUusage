@@ -22,7 +22,7 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setNumber",
                                       Qt::QueuedConnection,
                                       Q_ARG(int, mNumber));
-            QThread::msleep(10);
+            QThread::msleep(100);
         }
     }
     bool isRunning() const{

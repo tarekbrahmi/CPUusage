@@ -58,8 +58,7 @@ ArcItem {
     id: arcLeft
     width: 360
     height: 360
-    property real value: 60
-
+    property real value: myNumber.number
     end: 82
     strokeColor: "#35e583"
     capStyle: 32
