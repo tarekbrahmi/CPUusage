@@ -4,13 +4,17 @@ import QtQuick.Studio.Components 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Timeline 1.0
 import QtQuick.Layouts 1.3
-
+import data
 Rectangle {
     id: root
     width: Constants.width
     height: Constants.height
     color: "#1a1e25"
     state: "Standard"
+    Data{
+        id:myData
+    }
+
     Foreground {
         id: foreground
         width: 1080
@@ -18,9 +22,12 @@ Rectangle {
         anchors.fill: parent
         currentFrame: 0
     }
+
     Connections {
         target: foreground
         onClicked: {
+            myData.start()
+            console.log("cpuUsagePercent ",myData.cpuUsagePercent)
             if (state === "Standard")
                 root.state = "ToBig"
             else if (state === "Big")

@@ -53,7 +53,7 @@ QString DisplayCPUusgae::calcCpuUsage(unsigned long long cpu_sum,  unsigned long
     // save the value
     cpu_sum = _cpu_sum;
     cpu_idle = idle;
-    cmd.exec(cmd_sleep);
+//    cmd.exec(cmd_sleep);
     return QVariant((int)percent).toString();
 }
 

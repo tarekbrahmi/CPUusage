@@ -5,6 +5,7 @@ import QtQuick.Timeline 1.0
 import Monty 1.0
 
 
+
 Item {
     id: element
     width: 454
@@ -15,6 +16,7 @@ Item {
     DisplayCPUusgae{
         id:displaycpuusage
     }
+
 
     ArcItem {
         id: arcRight
@@ -328,18 +330,19 @@ Item {
             width: 31
             height: 47
             color: "#6d6d6d"
-            text: " mph"
+            text: " %"
             wrapMode: Text.WordWrap
-            lineHeight: 0.8
+            lineHeight: 0.9
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 20
+            font.pixelSize: 27
         }
 
         CustomLabel {
             id: speedLabel
             x: 34
             y: -8
-            text: displaycpuusage.getPercent()
+            text: myData.cpuUsagePercent
+
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 82
 
