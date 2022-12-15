@@ -60,7 +60,6 @@ ArcItem {
     height: 360
     property real value: myData.cpuUsagePercent
     end: 82
-    strokeColor: "#35e583"
     capStyle: 32
     strokeWidth: 14
     begin: -82
