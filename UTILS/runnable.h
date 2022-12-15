@@ -7,13 +7,18 @@
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
+#include <cmath>
 #include <QVariant>
 #define PATH_CPU_STATE "/proc/stat"
 #define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
 #define PATH_BAT_STATUS "/sys/class/power_supply/BAT0/status"
+#define POWER_SUPPLY_CHARGE_NOW "/sys/class/power_supply/BAT0/charge_now"
+#define POWER_SUPPLY_CURRENT_NOW "/sys/class/power_supply/BAT0/current_now"
+
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
+    double timeRemaining=0;
     int battreyPercent=0;
     QString battreyStatus="Discharging";
     QObject *mReceiver;
@@ -31,6 +36,8 @@ public:
             cpuUsagePercent=calcCpuUsage(cpu_sum,cpu_idle);
             battreyPercent=GetBatteryPercent();
             battreyStatus=getBattreyStatus();
+            timeRemaining=GetTimeRemaining();
+//            qDebug()<<"timeRemaining "<<timeRemaining;
             QMetaObject::invokeMethod(mReceiver, "setCpuUsagePercent",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuUsagePercent));
@@ -40,7 +47,7 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setBatteryStatus",
                                       Qt::QueuedConnection,
                                       Q_ARG(QString, battreyStatus));
-            QThread::msleep(100);
+            QThread::msleep(1000);
         }
     }
     bool isRunning() const{
@@ -94,6 +101,19 @@ public:
         sprintf(cmd_tump, "%s %s", "/usr/bin/cat", PATH_BAT_STATUS);
         return utils.trim( cmd.exec(cmd_tump));
     };
+    double GetTimeRemaining(){
+        double timeRemain=0;
+        unsigned int charge_now ,current_now;
+        FILE *_file = fopen(POWER_SUPPLY_CHARGE_NOW, "r");
+        fscanf(_file, "%iu",&charge_now);
+        fclose(_file);
+        FILE *file = fopen(POWER_SUPPLY_CURRENT_NOW, "r");
+        fscanf(file, "%iu",&current_now);
+        fclose(file);
+        timeRemain=charge_now;
+        timeRemain /=current_now;
+        return round(timeRemain);
+    }
 };
 
 

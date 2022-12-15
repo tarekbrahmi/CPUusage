@@ -17,9 +17,10 @@ SpeedBackground {
 
     ArcLeft {
         id: arcLeft
+        objectName: arcleft
         x: 42
         y: 37
-        strokeColor: "#11d388"
+        strokeColor: myData.arcleftsorckColor
         antialiasing: true
         value:myData.cpuUsagePercent
     }

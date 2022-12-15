@@ -14,8 +14,10 @@ Item {
         if(myData.batteryStatus==="Discharging"){_color = '#6d6d6d'}
         if(myData.batteryStatus==="Charging"){ _color = '#006400'}
         if(myData.batteryStatus==="NotCharging"){ _color = '#f0e68c'}
+        if(myData.batteryStatus==="Full"){ _color = '#f5f5f5'}
         return _color
     }
+
 
     ArcItem {
         id: arcRight
@@ -61,7 +63,7 @@ Item {
             begin: 0.1
             strokeStyle: 2
             strokeColor: "#5d5d5d"
-            dashPattern: [1, 4]
+            dashPattern: [1, 2]
             end: 360
         }
 
