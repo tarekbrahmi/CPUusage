@@ -18,7 +18,6 @@ Item {
         return _color
     }
 
-
     ArcItem {
         id: arcRight
         x: 36
@@ -159,7 +158,7 @@ Item {
             width: 31
             height: 70
             color: "#6d6d6d"
-            text: "mi. assist left"
+            text: myData.timeRemaining.split(" ")[1]+" assist left"
             wrapMode: Text.WordWrap
             lineHeight: 0.8
             horizontalAlignment: Text.AlignHCenter
@@ -184,7 +183,7 @@ Item {
             id: batteryLabel
             x: 305
             y: 186
-            text: "11"
+            text: myData.timeRemaining.split(" ")[0]
             font.pixelSize: 48
         }
 

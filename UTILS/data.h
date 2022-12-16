@@ -12,12 +12,13 @@ class Data : public QObject
     Q_PROPERTY(int capaBattery READ capaBattery WRITE setCapaBattery NOTIFY capaBatteryChanged)
     Q_PROPERTY(QString batteryStatus READ batteryStatus WRITE setBatteryStatus NOTIFY batteryStatusChanged)
     Q_PROPERTY(QColor arcleftsorckColor READ arcleftsorckColor WRITE setarcleftsorckColor NOTIFY arcleftsorckColorChanged)
+    Q_PROPERTY(QString timeRemaining READ timeRemaining WRITE setTimeRemaining NOTIFY timeRemainingChanged)
 public:
     explicit Data(QObject *parent = nullptr):QObject(parent){
         m_cpuUsagePercent=0;
         m_capaBattery=0;
         m_arcleftsorckColor=QColor(0x11, 0xd3, 0x88);
-        _parent=parent;
+        m_timeRemaining="";
         runnable = new Runnable(this);
     }
     ~Data(){
@@ -45,6 +46,10 @@ public:
     QColor arcleftsorckColor() const
     {
         return m_arcleftsorckColor;
+    }
+    QString timeRemaining() const
+    {
+        return m_timeRemaining;
     }
 
 
@@ -84,19 +89,27 @@ public slots:
         m_arcleftsorckColor = newArcleftsorckColor;
         emit arcleftsorckColorChanged(m_arcleftsorckColor);
     }
+    void setTimeRemaining(const QString &newTimeRemaining)
+    {
+        if (m_timeRemaining == newTimeRemaining)
+            return;
+        m_timeRemaining = newTimeRemaining;
+        emit timeRemainingChanged(m_timeRemaining);
+    }
 signals:
     void cpuUsagePercentChanged(long);
     void capaBatteryChanged(int);
     void batteryStatusChanged(QString);
     void arcleftsorckColorChanged(QColor);
+    void timeRemainingChanged(QString);
 
 private:
     Runnable *runnable;
     long m_cpuUsagePercent;
     int m_capaBattery;
     QString m_batteryStatus;
-    QObject *_parent;
     QColor m_arcleftsorckColor;
+    QString m_timeRemaining;
 };
 
 #endif // DATA_H

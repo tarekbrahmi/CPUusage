@@ -18,7 +18,7 @@
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
-    double timeRemaining=0;
+    QString timeRemaining;
     int battreyPercent=0;
     QString battreyStatus="Discharging";
     QObject *mReceiver;
@@ -47,6 +47,9 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setBatteryStatus",
                                       Qt::QueuedConnection,
                                       Q_ARG(QString, battreyStatus));
+            QMetaObject::invokeMethod(mReceiver, "setTimeRemaining",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(QString, timeRemaining));
             QThread::msleep(1000);
         }
     }
@@ -101,18 +104,12 @@ public:
         sprintf(cmd_tump, "%s %s", "/usr/bin/cat", PATH_BAT_STATUS);
         return utils.trim( cmd.exec(cmd_tump));
     };
-    double GetTimeRemaining(){
-        double timeRemain=0;
-        unsigned int charge_now ,current_now;
-        FILE *_file = fopen(POWER_SUPPLY_CHARGE_NOW, "r");
-        fscanf(_file, "%iu",&charge_now);
-        fclose(_file);
-        FILE *file = fopen(POWER_SUPPLY_CURRENT_NOW, "r");
-        fscanf(file, "%iu",&current_now);
-        fclose(file);
-        timeRemain=charge_now;
-        timeRemain /=current_now;
-        return round(timeRemain);
+    QString GetTimeRemaining(){
+
+        char cmd_tump[255];
+        CMD cmd;
+        sprintf(cmd_tump, "%s", "upower -i $(upower -e | grep BAT) | grep  -E 'to empty' | grep -o  '[0-9].*'");
+        return cmd.exec(cmd_tump);
     }
 };
 
