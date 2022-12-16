@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QColor>
 #include <QThreadPool>
-
+#include <vector>
 class Data : public QObject
 {
     Q_OBJECT
@@ -14,12 +14,14 @@ class Data : public QObject
     Q_PROPERTY(QString batteryStatus READ batteryStatus WRITE setBatteryStatus NOTIFY batteryStatusChanged)
     Q_PROPERTY(QColor arcleftsorckColor READ arcleftsorckColor WRITE setarcleftsorckColor NOTIFY arcleftsorckColorChanged)
     Q_PROPERTY(QString timeRemaining READ timeRemaining WRITE setTimeRemaining NOTIFY timeRemainingChanged)
+    Q_PROPERTY(std::vector<QString> ChargingCircleindicators READ ChargingCircleindicators WRITE setChargingCircleindicators NOTIFY ChargingCircleindicatorsChanged)
 public:
     explicit Data(QObject *parent = nullptr):QObject(parent){
         m_cpuUsagePercent=0;
         m_capaBattery=0;
         m_arcleftsorckColor=QColor(0x11, 0xd3, 0x88);
         m_timeRemaining="";
+        m_ChargingCircleindicators={"default","default","default","default"};// 4 elements;
         runnable = new Runnable(this);
     }
     ~Data(){
@@ -57,6 +59,12 @@ public:
     {
         return m_cpuAVG;
     }
+
+    std::vector<QString> ChargingCircleindicators() const
+    {
+        return m_ChargingCircleindicators;
+    }
+
 
 public slots:
     void setCpuUsagePercent(long newCpuUsagePercent)
@@ -108,14 +116,21 @@ public slots:
         m_cpuAVG = newCpuAVG;
         emit cpuAVGChanged(m_cpuAVG);
     }
+    void setChargingCircleindicators(const std::vector<QString> &newChargingCircleindicators)
+    {
+        if (m_ChargingCircleindicators == newChargingCircleindicators)
+            return;
+        m_ChargingCircleindicators = newChargingCircleindicators;
+        emit ChargingCircleindicatorsChanged(m_ChargingCircleindicators);
+    }
 signals:
     void cpuUsagePercentChanged(long);
     void capaBatteryChanged(int);
     void batteryStatusChanged(QString);
     void arcleftsorckColorChanged(QColor);
     void timeRemainingChanged(QString);
-
     void cpuAVGChanged(long);
+    void ChargingCircleindicatorsChanged(std::vector<QString>);
 
 private:
     Runnable *runnable;
@@ -125,7 +140,9 @@ private:
     QColor m_arcleftsorckColor;
     QString m_timeRemaining;
     long m_cpuAVG;
+    std::vector<QString> m_ChargingCircleindicators;
 };
+
 
 
 #endif // DATA_H

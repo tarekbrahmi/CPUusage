@@ -10,11 +10,11 @@ Rectangle {
     states: [
         State {
             name: "default"
-//            when: circle.checked
+            when: charging==="default"
         },
         State {
             name: "yellow"
-//            when: !circle.checked
+            when: charging==="yellow"
             PropertyChanges {
                 target: gradientStop
                 color: "#cc9320"
@@ -27,8 +27,7 @@ Rectangle {
         },
         State {
             name: "green"
-//            when: !circle.checked
-
+            when: charging==="green"
             PropertyChanges {
                 target: gradientStop
                 color: "#0e5d14"
@@ -41,8 +40,7 @@ Rectangle {
         },
         State {
             name: "red"
-//            when: !circle.checked
-
+            when: charging==="red"
             PropertyChanges {
                 target: gradientStop
                 color: "#630000"
@@ -54,14 +52,13 @@ Rectangle {
             }
         }
     ]
-    property bool charging: false
+    property string charging: "defualt"
     gradient: Gradient {
         GradientStop {
             id: gradientStop
             position: 0
             color: "#808080"
         }
-
         GradientStop {
             id: gradientStop1
             position: 1

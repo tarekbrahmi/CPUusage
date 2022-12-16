@@ -21,6 +21,8 @@ class Runnable : public QRunnable
     QString timeRemaining="";
     int battreyPercent=0;
     QString battreyStatus="Discharging";
+    std::vector<QString> ChargingCircleIndicators={"default","default","default","default"};// 4 elements;
+    int index=0;
     QObject *mReceiver;
     bool mRunning;
     long cpuAVG=0;
@@ -57,7 +59,19 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setCpuAVG",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuAVG));
+            if (battreyStatus=="Charging"){
+                ChargingCircleIndicators=ChargingIndicator();
+                QMetaObject::invokeMethod(mReceiver, "setChargingCircleindicators",
+                                          Qt::QueuedConnection,
+                                          Q_ARG(std::vector<QString>, ChargingCircleIndicators));
+            }else{
+
+                QMetaObject::invokeMethod(mReceiver, "setChargingCircleindicators",
+                                          Qt::QueuedConnection,
+                                          Q_ARG(std::vector<QString>, ChargingCircleIndicators));
+            }
             QThread::msleep(1000);
+            index++;
         }
     }
     bool isRunning() const{
@@ -122,6 +136,17 @@ public:
             return cmd.exec(cmd_tump);
         }
     }
+    std::vector<QString> ChargingIndicator(){
+        std::vector<std::vector<QString>> states={
+            {"yellow","default","default","default"},
+            {"green","yellow","default","default"},
+            {"default","green","yellow","default"},
+            {"default","default","green","yellow"},
+        };
+        return states[index%4];
+
+    }
+
 };
 
 #endif // RUNNABLE_H
