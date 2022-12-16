@@ -80,22 +80,24 @@ Item {
 
             CircleIndicator {
                 id: dot01
-                checked: true
+                charging: myData.ChargingCircleindicators[0]
             }
 
             CircleIndicator {
                 id: dot02
                 y: 4
-                checked: true
+                charging: myData.ChargingCircleindicators[1]
             }
 
             CircleIndicator {
                 id: dot03
                 y: 4
+                charging: myData.ChargingCircleindicators[2]
             }
 
             CircleIndicator {
                 id: dot04
+                charging: myData.ChargingCircleindicators[3]
             }
         }
 
@@ -215,11 +217,12 @@ Item {
             source: "images/battery.png"
         }
 
-//        Image {
-//            x: 207
-//            y: 299
-//            source: "images/assist.png"
-//        }
+        Image {
+            visible: myData.batteryStatus==="Charging"
+            x: 207
+            y: 299
+            source: "images/assist.png"
+        }
     }
 
     Timeline {
