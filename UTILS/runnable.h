@@ -7,13 +7,14 @@
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
+#include <cmath>
 #include <QVariant>
 #define PATH_CPU_STATE "/proc/stat"
 #define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
 #define PATH_BAT_STATUS "/sys/class/power_supply/BAT0/status"
 #define POWER_SUPPLY_CHARGE_NOW "/sys/class/power_supply/BAT0/charge_now"
 #define POWER_SUPPLY_CURRENT_NOW "/sys/class/power_supply/BAT0/current_now"
-#define POWER_SUPPLY_FULL_NOW "/sys/class/power_supply/BAT0/full_now"
+
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
@@ -101,22 +102,17 @@ public:
         return utils.trim( cmd.exec(cmd_tump));
     };
     double GetTimeRemaining(){
-//      T=  charge_now * 0.00001 / (current_now * voltage_now * 0.000000000001)
         double timeRemain=0;
-        unsigned int charge_now ,current_now,full_now;
+        unsigned int charge_now ,current_now;
         FILE *_file = fopen(POWER_SUPPLY_CHARGE_NOW, "r");
         fscanf(_file, "%iu",&charge_now);
         fclose(_file);
-
-        FILE *__file = fopen(POWER_SUPPLY_FULL_NOW, "r");
-        fscanf(__file, "%iu",&full_now);
-        fclose(__file);
         FILE *file = fopen(POWER_SUPPLY_CURRENT_NOW, "r");
         fscanf(file, "%iu",&current_now);
         fclose(file);
-        timeRemain=full_now-charge_now;
-        timeRemain/=current_now;
-        return timeRemain;
+        timeRemain=charge_now;
+        timeRemain /=current_now;
+        return round(timeRemain);
     }
 };
 
