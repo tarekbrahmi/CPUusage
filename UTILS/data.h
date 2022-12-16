@@ -21,7 +21,6 @@ public:
         m_arcleftsorckColor=QColor(0x11, 0xd3, 0x88);
         m_timeRemaining="";
         runnable = new Runnable(this);
-//        runnable->run();
     }
     ~Data(){
         runnable->stop();
