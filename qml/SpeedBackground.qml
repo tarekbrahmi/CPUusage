@@ -80,13 +80,13 @@ Item {
 
             CircleIndicator {
                 id: dot01
-                checked: true
+//                checked: true
             }
 
             CircleIndicator {
                 id: dot02
                 y: 4
-                checked: true
+//                checked: true
             }
 
             CircleIndicator {
