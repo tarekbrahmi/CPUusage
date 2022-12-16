@@ -17,6 +17,13 @@ Item {
         if(myData.batteryStatus==="Full"){ _color = '#f5f5f5'}
         return _color
     }
+    function timeAssistLabel(){
+        if(myData.batteryStatus==="Charging"){
+            return myData.timeRemaining.split(" ")[1]+" until full"
+        }else{
+            return myData.timeRemaining.split(" ")[1]+" assist left"
+        }
+    }
 
     ArcItem {
         id: arcRight
@@ -158,7 +165,7 @@ Item {
             width: 31
             height: 70
             color: "#6d6d6d"
-            text: myData.timeRemaining.split(" ")[1]+" assist left"
+            text: timeAssistLabel()
             wrapMode: Text.WordWrap
             lineHeight: 0.8
             horizontalAlignment: Text.AlignHCenter
@@ -183,7 +190,7 @@ Item {
             id: batteryLabel
             x: 305
             y: 186
-            text: myData.timeRemaining.split(" ")[0]
+            text: myData.timeRemaining.split(" ")[0].toString().trim()
             font.pixelSize: 48
         }
 

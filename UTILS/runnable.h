@@ -18,12 +18,12 @@
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
-    QString timeRemaining;
+    QString timeRemaining="";
     int battreyPercent=0;
     QString battreyStatus="Discharging";
     QObject *mReceiver;
     bool mRunning;
-    long cpuAVG;
+    long cpuAVG=0;
     std::vector<long> cpusAVG;
     unsigned long long cpu_sum=0 ;
     unsigned long long cpu_idle =0;
@@ -112,11 +112,15 @@ public:
         return utils.trim( cmd.exec(cmd_tump));
     };
     QString GetTimeRemaining(){
-
         char cmd_tump[255];
         CMD cmd;
-        sprintf(cmd_tump, "%s", "upower -i $(upower -e | grep BAT) | grep  -E 'to empty' | grep -o  '[0-9].*'");
-        return cmd.exec(cmd_tump);
+        if (battreyStatus=="Charging"){
+            sprintf(cmd_tump, "%s", "upower -i $(upower -e | grep BAT) | grep  -E 'time to full' | grep -o  '[0-9].*'");
+            return cmd.exec(cmd_tump);
+        }else{
+            sprintf(cmd_tump, "%s", "upower -i $(upower -e | grep BAT) | grep  -E 'to empty' | grep -o  '[0-9].*'");
+            return cmd.exec(cmd_tump);
+        }
     }
 };
 
