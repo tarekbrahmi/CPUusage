@@ -172,7 +172,7 @@ Item {
             width: 31
             height: 47
             color: "#6d6d6d"
-            text: "AVG mph"
+            text: "AVG %"
             lineHeight: 0.8
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 20
@@ -191,7 +191,7 @@ Item {
             id: averageSpeedLabel
             x: 119
             y: 186
-            text: "12"
+            text: myData.cpuAVG
             lineHeight: 0.8
             font.pixelSize: 48
         }
@@ -208,11 +208,11 @@ Item {
             source: "images/battery.png"
         }
 
-        Image {
-            x: 207
-            y: 299
-            source: "images/assist.png"
-        }
+//        Image {
+//            x: 207
+//            y: 299
+//            source: "images/assist.png"
+//        }
     }
 
     Timeline {

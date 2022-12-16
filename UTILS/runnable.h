@@ -7,7 +7,7 @@
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
-#include <cmath>
+#include <vector>
 #include <QVariant>
 #define PATH_CPU_STATE "/proc/stat"
 #define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
@@ -23,21 +23,25 @@ class Runnable : public QRunnable
     QString battreyStatus="Discharging";
     QObject *mReceiver;
     bool mRunning;
+    long cpuAVG;
+    std::vector<long> cpusAVG;
     unsigned long long cpu_sum=0 ;
     unsigned long long cpu_idle =0;
 public:
     Runnable(QObject *receiver){
         mReceiver = receiver;
         mRunning = false;
+
     }
     void run(){
         mRunning = true;
         while(mRunning){
             cpuUsagePercent=calcCpuUsage(cpu_sum,cpu_idle);
+            cpusAVG.push_back(cpuUsagePercent);
+            cpuAVG=std::reduce(cpusAVG.begin(), cpusAVG.end())/cpusAVG.size();
             battreyPercent=GetBatteryPercent();
             battreyStatus=getBattreyStatus();
             timeRemaining=GetTimeRemaining();
-            qDebug()<<"timeRemaining "<<timeRemaining;
             QMetaObject::invokeMethod(mReceiver, "setCpuUsagePercent",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuUsagePercent));
@@ -50,6 +54,9 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setTimeRemaining",
                                       Qt::QueuedConnection,
                                       Q_ARG(QString, timeRemaining));
+            QMetaObject::invokeMethod(mReceiver, "setCpuAVG",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(long, cpuAVG));
             QThread::msleep(1000);
         }
     }
@@ -112,6 +119,5 @@ public:
         return cmd.exec(cmd_tump);
     }
 };
-
 
 #endif // RUNNABLE_H

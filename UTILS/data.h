@@ -10,6 +10,7 @@ class Data : public QObject
     Q_OBJECT
     Q_PROPERTY(long cpuUsagePercent READ cpuUsagePercent WRITE setCpuUsagePercent NOTIFY cpuUsagePercentChanged)
     Q_PROPERTY(int capaBattery READ capaBattery WRITE setCapaBattery NOTIFY capaBatteryChanged)
+    Q_PROPERTY(long cpuAVG READ cpuAVG WRITE setCpuAVG NOTIFY cpuAVGChanged)
     Q_PROPERTY(QString batteryStatus READ batteryStatus WRITE setBatteryStatus NOTIFY batteryStatusChanged)
     Q_PROPERTY(QColor arcleftsorckColor READ arcleftsorckColor WRITE setarcleftsorckColor NOTIFY arcleftsorckColorChanged)
     Q_PROPERTY(QString timeRemaining READ timeRemaining WRITE setTimeRemaining NOTIFY timeRemainingChanged)
@@ -20,6 +21,7 @@ public:
         m_arcleftsorckColor=QColor(0x11, 0xd3, 0x88);
         m_timeRemaining="";
         runnable = new Runnable(this);
+//        runnable->run();
     }
     ~Data(){
         runnable->stop();
@@ -52,6 +54,10 @@ public:
         return m_timeRemaining;
     }
 
+    long cpuAVG() const
+    {
+        return m_cpuAVG;
+    }
 
 public slots:
     void setCpuUsagePercent(long newCpuUsagePercent)
@@ -96,12 +102,21 @@ public slots:
         m_timeRemaining = newTimeRemaining;
         emit timeRemainingChanged(m_timeRemaining);
     }
+    void setCpuAVG(long newCpuAVG)
+    {
+        if (m_cpuAVG == newCpuAVG)
+            return;
+        m_cpuAVG = newCpuAVG;
+        emit cpuAVGChanged(m_cpuAVG);
+    }
 signals:
     void cpuUsagePercentChanged(long);
     void capaBatteryChanged(int);
     void batteryStatusChanged(QString);
     void arcleftsorckColorChanged(QColor);
     void timeRemainingChanged(QString);
+
+    void cpuAVGChanged(long);
 
 private:
     Runnable *runnable;
@@ -110,6 +125,8 @@ private:
     QString m_batteryStatus;
     QColor m_arcleftsorckColor;
     QString m_timeRemaining;
+    long m_cpuAVG;
 };
+
 
 #endif // DATA_H
