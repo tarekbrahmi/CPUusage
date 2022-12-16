@@ -7,36 +7,41 @@
 #include <QRunnable>
 #include <QThread>
 #include <QDebug>
+#include <vector>
 #include <QVariant>
 #define PATH_CPU_STATE "/proc/stat"
 #define PATH_BAT_CAPA "/sys/class/power_supply/BAT0/capacity"
 #define PATH_BAT_STATUS "/sys/class/power_supply/BAT0/status"
 #define POWER_SUPPLY_CHARGE_NOW "/sys/class/power_supply/BAT0/charge_now"
 #define POWER_SUPPLY_CURRENT_NOW "/sys/class/power_supply/BAT0/current_now"
-#define POWER_SUPPLY_FULL_NOW "/sys/class/power_supply/BAT0/full_now"
+
 class Runnable : public QRunnable
 {
     long cpuUsagePercent = 0;
-    double timeRemaining=0;
+    QString timeRemaining;
     int battreyPercent=0;
     QString battreyStatus="Discharging";
     QObject *mReceiver;
     bool mRunning;
+    long cpuAVG;
+    std::vector<long> cpusAVG;
     unsigned long long cpu_sum=0 ;
     unsigned long long cpu_idle =0;
 public:
     Runnable(QObject *receiver){
         mReceiver = receiver;
         mRunning = false;
+
     }
     void run(){
         mRunning = true;
         while(mRunning){
             cpuUsagePercent=calcCpuUsage(cpu_sum,cpu_idle);
+            cpusAVG.push_back(cpuUsagePercent);
+            cpuAVG=std::reduce(cpusAVG.begin(), cpusAVG.end())/cpusAVG.size();
             battreyPercent=GetBatteryPercent();
             battreyStatus=getBattreyStatus();
             timeRemaining=GetTimeRemaining();
-            qDebug()<<"timeRemaining "<<timeRemaining;
             QMetaObject::invokeMethod(mReceiver, "setCpuUsagePercent",
                                       Qt::QueuedConnection,
                                       Q_ARG(long, cpuUsagePercent));
@@ -46,6 +51,12 @@ public:
             QMetaObject::invokeMethod(mReceiver, "setBatteryStatus",
                                       Qt::QueuedConnection,
                                       Q_ARG(QString, battreyStatus));
+            QMetaObject::invokeMethod(mReceiver, "setTimeRemaining",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(QString, timeRemaining));
+            QMetaObject::invokeMethod(mReceiver, "setCpuAVG",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(long, cpuAVG));
             QThread::msleep(1000);
         }
     }
@@ -100,25 +111,13 @@ public:
         sprintf(cmd_tump, "%s %s", "/usr/bin/cat", PATH_BAT_STATUS);
         return utils.trim( cmd.exec(cmd_tump));
     };
-    double GetTimeRemaining(){
-//      T=  charge_now * 0.00001 / (current_now * voltage_now * 0.000000000001)
-        double timeRemain=0;
-        unsigned int charge_now ,current_now,full_now;
-        FILE *_file = fopen(POWER_SUPPLY_CHARGE_NOW, "r");
-        fscanf(_file, "%iu",&charge_now);
-        fclose(_file);
+    QString GetTimeRemaining(){
 
-        FILE *__file = fopen(POWER_SUPPLY_FULL_NOW, "r");
-        fscanf(__file, "%iu",&full_now);
-        fclose(__file);
-        FILE *file = fopen(POWER_SUPPLY_CURRENT_NOW, "r");
-        fscanf(file, "%iu",&current_now);
-        fclose(file);
-        timeRemain=full_now-charge_now;
-        timeRemain/=current_now;
-        return timeRemain;
+        char cmd_tump[255];
+        CMD cmd;
+        sprintf(cmd_tump, "%s", "upower -i $(upower -e | grep BAT) | grep  -E 'to empty' | grep -o  '[0-9].*'");
+        return cmd.exec(cmd_tump);
     }
 };
-
 
 #endif // RUNNABLE_H
