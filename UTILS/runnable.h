@@ -26,7 +26,7 @@ class Runnable : public QRunnable
     QObject *mReceiver;
     bool mRunning;
     long cpuAVG=0;
-    std::vector<long> cpusAVG;
+    std::vector<long> cpusAVG={0};
     unsigned long long cpu_sum=0 ;
     unsigned long long cpu_idle =0;
 public:
