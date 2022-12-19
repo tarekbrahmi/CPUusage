@@ -18,10 +18,21 @@ Item {
         return _color
     }
     function timeAssistLabel(){
+        console.log('root state ',root.state)
         if(myData.batteryStatus==="Charging"){
-            return myData.timeRemaining.split(" ")[1]+" until full"
+            if(root.state==="Standard"){
+                return ""
+            }else{
+                return myData.timeRemaining.split(" ")[1]+" until full"
+            }
+
         }else{
-            return myData.timeRemaining.split(" ")[1]+" assist left"
+            if(root.state==="Standard"){
+                return ""
+            }else{
+                return myData.timeRemaining.split(" ")[1]+" assist left"
+            }
+
         }
     }
 

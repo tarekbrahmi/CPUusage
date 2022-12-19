@@ -20,7 +20,8 @@ public:
         m_cpuUsagePercent=0;
         m_capaBattery=0;
         m_arcleftsorckColor=QColor(0x11, 0xd3, 0x88);
-        m_timeRemaining="";
+        m_timeRemaining=" ";
+        m_cpuAVG=0;
         m_ChargingCircleindicators={"default","default","default","default"};// 4 elements;
         runnable = new Runnable(this);
     }
