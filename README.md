@@ -53,3 +53,19 @@ We can simply sum of all difference between two consecutive reads to get the tim
 
 ![Alt text](./images/demo.png "Demo app")
 ![Alt text](./images/demo-small.png "Demo small app")
+
+New Topic Qt and Qt Quick :
+The Qt Quick module is the standard library for writing QML applications
+Qt Quick module provides all the basic types necessary for creating user interfaces with QML.
+The Qt Quick module provides QML API, which supplies QML types for creating user interfaces with the QML language.
+C++ API for extending QML applications with C++ code.
+
+
+A quick example to display some data  .. like 
+CPU usage (en %) 
+The AVG (en %) of the CPU usage while the application is running .
+Battery status and charge percentage .
+An animation when my PC is charging .
+All this data comes from basic linux commands and uses signal/slots to display data in ui via c++ api .
+
+what's next.. Qt for MCU ...
