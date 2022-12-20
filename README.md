@@ -37,18 +37,6 @@ softirq 62049679 464518 6306058 5718 228634 1846665 6 1237894 27555721 5686 2439
 - The "procs_running" line gives the number of processes currently running on CPUs .
 - The "procs_blocked" line gives the number of processes currently blocked, waiting for I/O to complete .
 
-Calculation:<br/>
->sum up all the columns in the 1st line "cpu" :<br/>
-    ( user + nice + system + idle + iowait + irq + softirq )<br/>
-    this will yield 100% of CPU time<br/>
-    calculate the average percentage of total 'idle' out of 100% of CPU time :<br/>
-    ( user + nice + system + idle + iowait + irq + softirq ) = 100%( idle ) = X % hence<br/>
-    average idle percentage <br/>
-    X % = ( idle * 100 ) / ( user + nice + system + idle + iowait + irq + softirq )<br/>
-
->[[2]](https://www.idnt.net/en-US/kb/941772) The CPU usage can be measured over an interval of time only. This means we have to read the values from /proc/stat on a fixed interval and calculate the delta from these readings.
-We can simply sum of all difference between two consecutive reads to get the time elapsed between these reads. The result is equal to multiplying USER_HZ with the number of CPUs on your system and the seconds between the reads. The difference of column 4 (idle) gives us the time spent idle. The sum minus the idle time gives us the total CPU utilization. Divided by the sum we get the percentage of CPU utilization.
-
 # ScreenShot of project
 
 ![Alt text](./images/demo.png "Demo app")
